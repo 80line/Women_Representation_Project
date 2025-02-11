@@ -2,14 +2,18 @@
 title: "CSS 205: Final Project Proof of Data"
 subtitle: "Women's Representation in Politics"
 author: "Adeline Liem & Harley Clifton"
-output: html_document
+output: pdf_document
 date: "2025-02-11"
 ---
+
+This assignment was completed by Adeline Liem and Harley Clifton, and we are both CSS M.S. students. We will be collaborating on this project together for the rest of the course.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggplot2)
+library(corrplot)
+library(naniar)
 ```
 
 ```{r}
@@ -20,13 +24,10 @@ df <- read_csv(filepath)
 df
 ```
 
-
-
 ## Histogram of the Dependent Variable
 
-_Dependent Variable:_ `GeWom`: Women, girls, and gender  
-“This is a binary variable, taking the value of 1 if any of the peace agreement provisions are specifically addressing women, their inclusion, and their rights. This includes references to girls, widows, mothers, sexual violence (or forms thereof), gender violence, UNSC 1325 or CEDAW, lactating women. If no such provisions are present in the agreement, the value of the variable is 0” (Bell et al. 2021, 24).  
-
+*Dependent Variable:* Provisions for Women (`GeWom`): Women, girls, and gender\
+“This is a binary variable, taking the value of 1 if any of the peace agreement provisions are specifically addressing women, their inclusion, and their rights. This includes references to girls, widows, mothers, sexual violence (or forms thereof), gender violence, UNSC 1325 or CEDAW, lactating women. If no such provisions are present in the agreement, the value of the variable is 0” (Bell et al. 2021, 24).
 
 ```{r}
 # Generate histogram
@@ -50,7 +51,7 @@ $~$
 
 A correlation matrix for the DV and IVs that the original authors included in the model you are replicating.
 
-_Independent Variables:_ Women signatories (FemSig_P), women negotiators (FemNeg_P), women mediators (FemMed_P), women observers (FemOb_P) + constant
+*Independent Variables:* Women signatories (`FemSig_P`), women negotiators (`FemNeg_P`), women mediators (`FemMed_P`), women observers (`FemOb_P`)
 
 ```{r}
 # Making subset of the data
@@ -60,11 +61,9 @@ dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
 cor(dat, use = 'pairwise.complete.obs')
 
 # Correlation Plot
-library(corrplot)
 corrplot(cor(dat, use = 'pairwise.complete.obs'))
 
 ```
-
 
 $~$
 
@@ -73,6 +72,12 @@ $~$
 A visual or tabular depiction of the missingness in the data from part (2); see p. 251-255 of the text.
 
 ```{r}
+# Generate missingness visualization
+
+vis_miss(dat)
 
 ```
 
+### Appendix
+
+“I certify that we did not use any LLM or generative AI tool in this assignment”
