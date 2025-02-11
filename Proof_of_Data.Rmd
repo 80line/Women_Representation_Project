@@ -10,8 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## Histogram of the Dependent Variable
-
 ```{r}
 # Read in dataset
 
@@ -19,6 +17,13 @@ filepath <- './data/PADD_Agreement_Level_Multiple_Positions.csv'
 df <- read_csv(filepath)
 df
 ```
+
+
+
+## Histogram of the Dependent Variable
+
+_Dependent Variable:_ `GeWom`: Women, girls, and gender  
+“This is a binary variable, taking the value of 1 if any of the peace agreement provisions are specifically addressing women, their inclusion, and their rights. This includes references to girls, widows, mothers, sexual violence (or forms thereof), gender violence, UNSC 1325 or CEDAW, lactating women. If no such provisions are present in the agreement, the value of the variable is 0” (Bell et al. 2021, 24).  
 
 ```{r}
 # Generate histogram
