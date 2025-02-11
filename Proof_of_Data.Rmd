@@ -13,7 +13,15 @@ library(tidyverse)
 ## Histogram of the Dependent Variable
 
 ```{r}
+# Read in dataset
 
+filepath <- './data/PADD_Agreement_Level_Multiple_Positions.csv'
+df <- read_csv(filepath)
+df
+```
+
+```{r}
+# Generate histogram
 
 
 ```
