@@ -53,8 +53,11 @@ A correlation matrix for the DV and IVs that the original authors included in th
 _Independent Variables:_ Women signatories (FemSig_P), women negotiators (FemNeg_P), women mediators (FemMed_P), women observers (FemOb_P) + constant
 
 ```{r}
+# Making subset of the data
 dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
 
+# Correlation Matrix
+cor(dat, use = 'pairwise.complete.obs')
 
 
 ```
