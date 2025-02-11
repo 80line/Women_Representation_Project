@@ -31,8 +31,15 @@ _Dependent Variable:_ `GeWom`: Women, girls, and gender
 ```{r}
 # Generate histogram
 
-hist <- ggplot(df, aes(x=GeWom)) + 
-  geom_histogram()
+hist <- ggplot(df, aes(x = GeWom)) + 
+  geom_histogram(fill = "pink") +
+  labs(title = "Histogram of Dependent Variable  \n Provisions for Women",
+       x = "Binary Variable for Provisions for Women  \n (1 = Present/0 = Absent)",
+       y = "Frequency") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11))
 
 hist
 ```
