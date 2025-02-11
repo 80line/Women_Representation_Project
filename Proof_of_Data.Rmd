@@ -1,5 +1,6 @@
 ---
-title: "Women_Representation_Politics"
+title: "CSS 205: Final Project Proof of Data"
+subtitle: "Women's Representation in Politics"
 author: "Adeline Liem & Harley Clifton"
 output: html_document
 date: "2025-02-11"
