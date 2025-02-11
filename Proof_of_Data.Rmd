@@ -59,6 +59,9 @@ dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
 # Correlation Matrix
 cor(dat, use = 'pairwise.complete.obs')
 
+# Correlation Plot
+library(corrplot)
+corrplot(cor(dat, use = 'pairwise.complete.obs'))
 
 ```
 
