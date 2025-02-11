@@ -26,18 +26,12 @@ df
 _Dependent Variable:_ `GeWom`: Women, girls, and gender  
 “This is a binary variable, taking the value of 1 if any of the peace agreement provisions are specifically addressing women, their inclusion, and their rights. This includes references to girls, widows, mothers, sexual violence (or forms thereof), gender violence, UNSC 1325 or CEDAW, lactating women. If no such provisions are present in the agreement, the value of the variable is 0” (Bell et al. 2021, 24).  
 
+
 ```{r}
 # Generate histogram
 
-hist <- ggplot(df, aes(x = GeWom)) + 
-  geom_histogram(fill = "pink") +
-  labs(title = "Histogram of Dependent Variable  \n Provisions for Women",
-       x = "Binary Variable for Provisions for Women  \n (1 = Present/0 = Absent)",
-       y = "Frequency") +
-  theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_text(size = 11),
-        axis.title.y = element_text(size = 11))
+hist <- ggplot(df, aes(x=GeWom)) + 
+  geom_histogram()
 
 hist
 ```
@@ -47,6 +41,8 @@ $~$
 ## Correlation Matrix
 
 A correlation matrix for the DV and IVs that the original authors included in the model you are replicating.
+
+Independent Variables: Women signatories (FemSig_P), women negotiators (FemNeg_P), women mediators (FemMed_P), women observers (FemOb_P) + constant
 
 ```{r}
 
