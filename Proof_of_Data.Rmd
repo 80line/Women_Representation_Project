@@ -1,9 +1,9 @@
 ---
-title: "CSS 205: Final Project Proof of Data"
-subtitle: "Women's Representation in Politics"
+title: 'CSS 205: Final Project Proof of Data'
 author: "Adeline Liem & Harley Clifton"
-output: pdf_document
 date: "2025-02-11"
+output: pdf_document
+subtitle: Women's Representation in Politics
 ---
 
 This assignment was completed by Adeline Liem and Harley Clifton, and we are both CSS M.S. students. We will be collaborating on this project together for the rest of the course.
