@@ -50,9 +50,11 @@ $~$
 
 A correlation matrix for the DV and IVs that the original authors included in the model you are replicating.
 
-Independent Variables: Women signatories (FemSig_P), women negotiators (FemNeg_P), women mediators (FemMed_P), women observers (FemOb_P) + constant
+_Independent Variables:_ Women signatories (FemSig_P), women negotiators (FemNeg_P), women mediators (FemMed_P), women observers (FemOb_P) + constant
 
 ```{r}
+dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
+
 
 
 ```
