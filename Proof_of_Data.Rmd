@@ -8,6 +8,7 @@ date: "2025-02-11"
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(ggplot2)
 ```
 
 ```{r}
@@ -28,7 +29,10 @@ _Dependent Variable:_ `GeWom`: Women, girls, and gender
 ```{r}
 # Generate histogram
 
+hist <- ggplot(df, aes(x=GeWom)) + 
+  geom_histogram()
 
+hist
 ```
 
 $~$
