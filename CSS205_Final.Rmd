@@ -1,5 +1,6 @@
 ---
-title: "CSS 205 Final"
+title: 'CSS 205: Final Project'
+subtitle: 'Womens Representation in Politics'
 author: "Adeline Liem and Harley Clifton"
 date: "2025-03-06"
 output: pdf_document
@@ -7,24 +8,146 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(corrplot)
+library(naniar)
 ```
 
-## R Markdown
+# Data Preperation
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Loading the Data
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Data Cleaning & Wrangling
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+$~$
+
+# Exploratory Data Analysis
+
+## Number of Observations
+
+```{r}
+
+```
+
+
+## Plot of the Outcome Variable
+
+```{r}
+
+```
+
+
+## Any Other Interesting Quantities
+
+```{r}
+
+```
+
+## Plot Missingness in Data
+
+```{r}
+
+```
+
+
+$~$
+
+# Replicating the Original Model & Findings
+
+## Fit Original Model
+
+```{r}
+
+```
+
+
+## Regression Table with Model Summary
+
+```{r}
+
+```
+
+
+$~$
+
+# Fitting Additional Models
+
+## Model with Different Link Function
+
+```{r}
+
+```
+
+
+## Model Exploring Interactions
+
+```{r}
+
+```
+
+
+## Regression Table with Additional Model Results
+
+```{r}
+
+```
+
+
+$~$
+
+# Comparing Models
+
+## In-Sample Predictive Performance (AIC/BIC)
+
+```{r}
+
+```
+
+
+## Out-Of-Sample Predictive Performance (Cross Validation)
+
+```{r}
+
+```
+
+
+
+Based on the analysis above, _____ model is the best.
+
+$~$ 
+
+# Interpreting the Best Model
+
+## Interpret a Coefficient
+
+```{r}
+
+```
+
+
+## Graph Relationship (with Uncertainty) between chosen Predictor and Outcome
+
+```{r}
+
+```
+
+
+$~$
+
+# Appendix
+
+### Statement on AI Usage
+
+“I certify that we did not use any LLM or generative AI tool in this assignment”
+
+
