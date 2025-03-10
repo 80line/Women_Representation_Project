@@ -31,14 +31,12 @@ df <- read_csv(filepath)
 ## Data Cleaning & Wrangling
 
 ```{r}
-
-# Create binary variables
+# Create Binary Variables
 
 df$FemSig_Bin <- ifelse(df$FemSig_N > 0, 1, 0)
 df$FemNeg_Bin <- ifelse(df$FemNeg_N > 0, 1, 0)
 df$FemMed_Bin <- ifelse(df$FemMed_N > 0, 1, 0)
 df$FemOb_Bin <- ifelse(df$FemOb_N > 0, 1, 0)
-
 ```
 
 $~$
@@ -54,6 +52,7 @@ nrow(df) # There are 116 total observations
 # Check number of distinct countries
 n_distinct(df$Con) # 58 different countries
 ```
+
 ```{r}
 # Create dataset with number of binary counts for the interested variables
 bin_counts <- df %>%
@@ -90,8 +89,6 @@ hist <- ggplot(df, aes(x = GeWom)) +
         axis.title.y = element_text(size = 11))
 
 hist
-
-
 ```
 
 
@@ -107,6 +104,7 @@ hist
 ```{r}
 # Generate missingness visualization
 
+dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
 vis_miss(dat)
 ```
 
