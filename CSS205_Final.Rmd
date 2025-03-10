@@ -12,6 +12,8 @@ library(tidyverse)
 library(ggplot2)
 library(corrplot)
 library(naniar)
+library(stargazer)
+library(dplyr)
 ```
 
 # Data Preperation
@@ -23,13 +25,19 @@ library(naniar)
 
 filepath <- './data/PADD_Agreement_Level_Multiple_Positions.csv'
 df <- read_csv(filepath)
-df
 ```
 
 
 ## Data Cleaning & Wrangling
 
 ```{r}
+
+# Create binary variables
+
+df$FemSig_Bin <- ifelse(df$FemSig_N > 0, 1, 0)
+df$FemNeg_Bin <- ifelse(df$FemNeg_N > 0, 1, 0)
+df$FemMed_Bin <- ifelse(df$FemMed_N > 0, 1, 0)
+df$FemOb_Bin <- ifelse(df$FemOb_N > 0, 1, 0)
 
 ```
 
@@ -40,7 +48,26 @@ $~$
 ## Number of Observations
 
 ```{r}
+# Check number of rows with size
+nrow(df) # There are 116 total observations
 
+# Check number of distinct countries
+n_distinct(df$Con) # 58 different countries
+```
+```{r}
+# Create dataset with number of binary counts for the interested variables
+bin_counts <- df %>%
+  summarise(
+    FemSig_Bin_0 = sum(FemSig_Bin == 0, na.rm = TRUE),
+    FemSig_Bin_1 = sum(FemSig_Bin == 1, na.rm = TRUE),
+    FemNeg_Bin_0 = sum(FemNeg_Bin == 0, na.rm = TRUE),
+    FemNeg_Bin_1 = sum(FemNeg_Bin == 1, na.rm = TRUE),
+    FemMed_Bin_0 = sum(FemMed_Bin == 0, na.rm = TRUE),
+    FemMed_Bin_1 = sum(FemMed_Bin == 1, na.rm = TRUE),
+    FemOb_Bin_0  = sum(FemOb_Bin == 0, na.rm = TRUE),
+    FemOb_Bin_1  = sum(FemOb_Bin == 1, na.rm = TRUE)
+  )
+bin_counts
 ```
 
 
