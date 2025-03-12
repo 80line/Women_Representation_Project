@@ -116,14 +116,22 @@ $~$
 ## Fit Original Model
 
 ```{r}
-
+# Fitting a GLM regression for each category of women in positions of power and provisions for women
+sig_b_glm <- glm(GeWom ~ FemSig_Bin, data = df, family = 'binomial')
+neg_b_glm <- glm(GeWom ~ FemNeg_Bin, data = df, family = 'binomial')
+med_b_glm <- glm(GeWom ~ FemMed_Bin, data = df, family = 'binomial')
+ob_b_glm <- glm(GeWom ~ FemOb_Bin, data = df, family = 'binomial')
 ```
 
 
 ## Regression Table with Model Summary
 
 ```{r}
-
+# Regression table (Table 5)
+stargazer(sig_b_glm, neg_b_glm, med_b_glm, ob_b_glm, type="text",
+          covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
+          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.labels = "Provisions for Women")
 ```
 
 
