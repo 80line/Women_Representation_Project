@@ -90,6 +90,21 @@ hist <- ggplot(df, aes(x = GeWom)) +
 
 hist
 ```
+```{r, warning = F}
+# Bar graph
+
+bar <- ggplot(df, aes(x = as.factor(GeWom))) + 
+  geom_bar(fill = "pink") +
+  labs(title = "Histogram of Dependent Variable  \n Provisions for Women",
+       x = "Binary Variable for Provisions for Women  \n (1 = Present/0 = Absent)",
+       y = "Frequency") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11))
+
+bar
+```
 
 
 ## Any Other Interesting Quantities
