@@ -104,7 +104,7 @@ hist
 ```{r}
 # Generate missingness visualization
 
-dat <- df %>% select(GeWom, FemSig_P, FemNeg_P, FemMed_P, FemOb_P)
+dat <- df %>% select(GeWom, FemSig_N, FemNeg_N, FemMed_N, FemOb_N)
 vis_miss(dat)
 ```
 
