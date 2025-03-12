@@ -95,7 +95,15 @@ hist
 ## Any Other Interesting Quantities
 
 ```{r}
+# summary(df)
 
+subs <- df %>% select(GeWom, 
+                      FemSig_P, FemNeg_P, FemMed_P, FemOb_P,
+                      FemSig_N, FemNeg_N, FemMed_N, FemOb_N,
+                      FemSig_Bin, FemNeg_Bin, FemMed_Bin, FemOb_Bin,
+                      )
+
+summary(subs)
 ```
 
 
