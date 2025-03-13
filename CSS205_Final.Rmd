@@ -14,6 +14,7 @@ library(corrplot)
 library(naniar)
 library(stargazer)
 library(dplyr)
+library(lubridate)
 ```
 
 # Data Preperation
@@ -37,6 +38,11 @@ df$FemSig_Bin <- ifelse(df$FemSig_N > 0, 1, 0)
 df$FemNeg_Bin <- ifelse(df$FemNeg_N > 0, 1, 0)
 df$FemMed_Bin <- ifelse(df$FemMed_N > 0, 1, 0)
 df$FemOb_Bin <- ifelse(df$FemOb_N > 0, 1, 0)
+
+# Creating a New Variable for just Year
+
+df$Dat <- as.Date(df$Dat)
+df$year <- year(df$Dat)
 ```
 
 $~$
@@ -172,10 +178,10 @@ $~$
 
 # Fitting Additional Models
 
-## Model with all Predictors in Table 5 Additively
+## Model with Signatories and Year
 
 ```{r}
-add_glm <- glm(GeWom ~ FemSig_Bin + FemNeg_Bin + FemMed_Bin + FemOb_Bin, 
+year_glm <- glm(GeWom ~ FemSig_Bin + year, 
                data = df, 
                family = 'binomial')
 ```
@@ -184,38 +190,11 @@ add_glm <- glm(GeWom ~ FemSig_Bin + FemNeg_Bin + FemMed_Bin + FemOb_Bin,
 ## Regression Table with Additional Model Results
 
 ```{r, warning = F}
-stargazer(add_glm, type="text",
-          covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
+stargazer(year_glm, type="text",
+          covariate.labels = c("Women Signatories", "Year"),
           dep.var.caption = "Women Delegates per Negotiation (Binary)",
           dep.var.labels = "Provisions for Women")
 ```
-
-## Out of Curiosity Model
-
-```{r, warning = F}
-df$Con <- as.factor(df$Con)
-
-library(lubridate)
-df$Dat <- as.Date(df$Dat)
-df$year <- year(df$Dat)
-
-big_glm <- glm(GeWom ~ FemSig_Bin + FemNeg_Bin + FemMed_Bin + FemOb_Bin + year, 
-               data = df, 
-               family = 'binomial')
-
-stargazer(big_glm, type="text")
-```
-
-## Just Year Model
-
-```{r, warning = F}
-year_glm <- glm(GeWom ~ FemSig_Bin + year, 
-               data = df, 
-               family = 'binomial')
-
-stargazer(year_glm, type="text")
-```
-
 
 
 $~$
@@ -225,8 +204,8 @@ $~$
 ## Table Comparing Models
 
 ```{r, warning = F}
-stargazer(sig_b_glm, add_glm, type="text",
-          covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
+stargazer(sig_b_glm, year_glm, type="text",
+          covariate.labels = c("Women Signatories", "Year"),
           dep.var.caption = "Women Delegates per Negotiation (Binary)",
           dep.var.labels = "Provisions for Women")
 ```
@@ -235,8 +214,8 @@ stargazer(sig_b_glm, add_glm, type="text",
 ## In-Sample Predictive Performance (AIC/BIC)
 
 ```{r}
-AIC(sig_b_glm, add_glm, big_glm, year_glm)
-BIC(sig_b_glm, add_glm, big_glm, year_glm)
+AIC(sig_b_glm, year_glm)
+BIC(sig_b_glm, year_glm)
 ```
 
 
