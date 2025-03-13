@@ -157,35 +157,53 @@ stargazer(sig_b_glm, neg_b_glm, med_b_glm, ob_b_glm, type="text",
           dep.var.labels = "Provisions for Women")
 ```
 
+## Regression Table with Model 1 Alone
+
+```{r, warning = F}
+stargazer(sig_b_glm, type="text",
+          covariate.labels = c("Women Signatories"),
+          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.labels = "Provisions for Women")
+```
+
+
 
 $~$
 
 # Fitting Additional Models
 
-## Model with Different Link Function
+## Model with all Predictors in Table 5 Additively
 
 ```{r}
-
-```
-
-
-## Model Exploring Interactions
-
-```{r}
-
+add_glm <- glm(GeWom ~ FemSig_Bin + FemNeg_Bin + FemMed_Bin + FemOb_Bin, 
+               data = df, 
+               family = 'binomial')
 ```
 
 
 ## Regression Table with Additional Model Results
 
-```{r}
-
+```{r, warning = F}
+stargazer(add_glm, type="text",
+          covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
+          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.labels = "Provisions for Women")
 ```
 
 
 $~$
 
 # Comparing Models
+
+## Table Comparing Models
+
+```{r, warning = F}
+stargazer(sig_b_glm, add_glm, type="text",
+          covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
+          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.labels = "Provisions for Women")
+```
+
 
 ## In-Sample Predictive Performance (AIC/BIC)
 
