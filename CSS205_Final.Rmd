@@ -149,7 +149,7 @@ ob_b_glm <- glm(GeWom ~ FemOb_Bin, data = df, family = 'binomial')
 
 ## Regression Table with Model Summary
 
-```{r}
+```{r, warning = F}
 # Regression table (Table 5)
 stargazer(sig_b_glm, neg_b_glm, med_b_glm, ob_b_glm, type="text",
           covariate.labels = c("Women Signatories", "Women Negotiators", "Women Mediators", "Women Observers"),
