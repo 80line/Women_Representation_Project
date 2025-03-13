@@ -206,6 +206,16 @@ big_glm <- glm(GeWom ~ FemSig_Bin + FemNeg_Bin + FemMed_Bin + FemOb_Bin + year,
 stargazer(big_glm, type="text")
 ```
 
+## Just Year Model
+
+```{r, warning = F}
+year_glm <- glm(GeWom ~ year, 
+               data = df, 
+               family = 'binomial')
+
+stargazer(year_glm, type="text")
+```
+
 
 
 $~$
@@ -225,8 +235,8 @@ stargazer(sig_b_glm, add_glm, type="text",
 ## In-Sample Predictive Performance (AIC/BIC)
 
 ```{r}
-AIC(sig_b_glm, add_glm)
-BIC(sig_b_glm, add_glm)
+AIC(sig_b_glm, add_glm, big_glm, year_glm)
+BIC(sig_b_glm, add_glm, big_glm, year_glm)
 ```
 
 
