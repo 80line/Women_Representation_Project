@@ -209,7 +209,7 @@ stargazer(big_glm, type="text")
 ## Just Year Model
 
 ```{r, warning = F}
-year_glm <- glm(GeWom ~ year, 
+year_glm <- glm(GeWom ~ FemSig_Bin + year, 
                data = df, 
                family = 'binomial')
 
