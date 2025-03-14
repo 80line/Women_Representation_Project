@@ -122,7 +122,7 @@ bar
 # Investigating Year
 
 yrbar <- ggplot(df, aes(x = as.factor(year))) + 
-  geom_bar(fill = "pink") +
+  geom_bar(fill = "palevioletred1") +
   labs(title = "Observations per Year",
        x = "Year",
        y = "Frequency") +
@@ -259,9 +259,22 @@ sig_b_glm_cv
 ```
 ```{r}
 # ROC plot for original model
-pred1 <- prediction(predict(sig_b_glm_cv, df_clean, type = "prob")[,2], df_clean$GeWom)  
-perf1 <- performance(pred1, measure = "tpr", x.measure = "fpr")
-plot(perf1, col=rainbow(10))
+pred1 <- prediction(predict(sig_b_glm_cv, 
+                            df_clean, 
+                            type = "prob")[,2], 
+                    df_clean$GeWom)  
+
+perf1 <- performance(pred1, 
+                     measure = "tpr", 
+                     x.measure = "fpr")
+
+plot(perf1, 
+     xlab = "False Positive Rate", 
+     ylab = "True Positive Rate",
+     col = "maroon1", lwd = 2)
+abline(a = 0, b = 1, col = "gray50")
+title(main = "ROC Curve for Original Women Signatories Model", 
+      col.main = "maroon1")
 ```
 
 ```{r}
@@ -279,9 +292,22 @@ year_glm_cv
 ```
 ```{r}
 # ROC plot
-pred1_year <- prediction(predict(year_glm_cv, df_clean, type = "prob")[,2], df_clean$GeWom)  
-perf1_year <- performance(pred1_year, measure = "tpr", x.measure = "fpr")
-plot(perf1_year, col=rainbow(10))
+pred1_year <- prediction(predict(year_glm_cv, 
+                                 df_clean, 
+                                 type = "prob")[,2], 
+                         df_clean$GeWom)  
+
+perf1_year <- performance(pred1_year, 
+                          measure = "tpr", 
+                          x.measure = "fpr")
+
+plot(perf1_year, 
+     xlab = "False Positive Rate", 
+     ylab = "True Positive Rate",
+     col = "hotpink2", lwd = 2)
+abline(a = 0, b = 1, col = "gray50")
+title(main = "ROC Curve for Additional Model with Women Signatories & Year", 
+      col.main = "hotpink2")
 ```
 
 Based on the analysis above, the additional model year_glm, which predicted GeWom from FemSig_Bin + year, is the best. This is because there is a 67.5% prediction accuracy in the cross validation performance for this model, which is higher than the prediction accuracy of the original model, which was 54.7%. There is also more area under the curve in the ROC plot, indicating a higher amount of true positives.
