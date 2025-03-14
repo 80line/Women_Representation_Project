@@ -275,7 +275,7 @@ perf1_year <- performance(pred1_year, measure = "tpr", x.measure = "fpr")
 plot(perf1_year, col=rainbow(10))
 ```
 
-Based on the analysis above, the additional model year_glm, which predicted GeWom from FemSig_Bin + year, is the best. This is because there is a 67.5% accuracy in the cross validation performance for this model, which is higher than the accuracy of the original model, which was 54.7%. There is also more area under the curve in the ROC plot, indicating a higher amount of true positives.
+Based on the analysis above, the additional model year_glm, which predicted GeWom from FemSig_Bin + year, is the best. This is because there is a 67.5% prediction accuracy in the cross validation performance for this model, which is higher than the prediction accuracy of the original model, which was 54.7%. There is also more area under the curve in the ROC plot, indicating a higher amount of true positives.
 
 $~$ 
 
