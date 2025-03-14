@@ -184,6 +184,10 @@ $~$
 year_glm <- glm(GeWom ~ FemSig_Bin + year, 
                data = df, 
                family = 'binomial')
+ 
+# year_int_glm <- glm(GeWom ~ FemSig_Bin * year, 
+#                data = df, 
+#                family = 'binomial')
 ```
 
 
@@ -253,6 +257,6 @@ $~$
 
 ### Statement on AI Usage
 
-“I certify that we did not use any LLM or generative AI tool in this assignment”
+I certify that we did not use any LLM or generative AI tool in this assignment.
 
 
