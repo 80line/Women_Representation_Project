@@ -15,6 +15,9 @@ library(naniar)
 library(stargazer)
 library(dplyr)
 library(lubridate)
+library(caret)
+library(ROCR)
+library(separationplot)
 ```
 
 # Data Preperation
@@ -226,12 +229,57 @@ BIC(sig_b_glm, year_glm)
 ## Out-Of-Sample Predictive Performance (Cross Validation)
 
 ```{r}
+# Remove missing data from dataframe for cross validation
 
+df_clean <- df[!is.na(df$FemSig_Bin),]
+nrow(df_clean)
+
+# Convert to factor
+df_clean$GeWom <- as.factor(df_clean$GeWom)
 ```
 
 
+```{r}
+# Cross validation for the original model (sig_b_glm)
 
-Based on the analysis above, _____ model is the best.
+train_control <- trainControl(method = "cv", 
+                              number = 10) 
+
+sig_b_glm_cv <- train(GeWom ~ FemSig_Bin, data = df_clean,  
+                 method = 'glm', 
+                 family = binomial(link = "logit"),
+                 trControl = train_control)
+
+sig_b_glm_cv
+```
+```{r}
+# ROC plot for original model
+pred1 <- prediction(predict(sig_b_glm_cv, df_clean, type = "prob")[,2], df_clean$GeWom)  
+perf1 <- performance(pred1, measure = "tpr", x.measure = "fpr")
+plot(perf1, col=rainbow(10))
+```
+
+```{r}
+# Cross validation for the additional model (year_glm)
+
+train_control <- trainControl(method = "cv", 
+                              number = 10) 
+
+year_glm_cv <- train(GeWom ~ FemSig_Bin + year, data = df_clean,  
+                 method = 'glm', 
+                 family = binomial(link = "logit"),
+                 trControl = train_control)
+
+year_glm_cv
+```
+```{r}
+# ROC plot
+pred1_year <- prediction(predict(year_glm_cv, df_clean, type = "prob")[,2], df_clean$GeWom)  
+perf1_year <- performance(pred1_year, measure = "tpr", x.measure = "fpr")
+plot(perf1_year, col=rainbow(10))
+```
+
+Based on the analysis above, the additional model year_glm, which predicted GeWom from FemSig_Bin + year, is the best. This is because there is a 67.5% prediction accuracy in the cross validation performance for this model, which is higher than the prediction accuracy of the original model, which was 54.7%. There is also more area under the curve in the ROC plot, indicating a higher amount of true positives.
 
 $~$ 
 
