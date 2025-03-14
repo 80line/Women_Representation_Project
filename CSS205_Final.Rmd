@@ -18,6 +18,7 @@ library(lubridate)
 library(caret)
 library(ROCR)
 library(separationplot)
+library(gridExtra)
 ```
 
 # Data Preperation
@@ -121,6 +122,8 @@ bar
 ```{r}
 # Investigating Year
 
+## Bar Graph
+
 yrbar <- ggplot(df, aes(x = as.factor(year))) + 
   geom_bar(fill = "palevioletred1") +
   labs(title = "Observations per Year",
@@ -134,6 +137,31 @@ yrbar <- ggplot(df, aes(x = as.factor(year))) +
 
 yrbar
 ```
+
+```{r}
+# Investigating Year
+
+df_year_counts <- df %>% count(year)
+
+## Line Graph
+
+yrline <- ggplot(df_year_counts, aes(x = year, y = n)) + 
+  geom_point(color = "palevioletred1", size = 2) + 
+  geom_line(color = "palevioletred1", size = 1.2) +
+  scale_x_continuous(breaks = seq(min(df_year_counts$year), 
+                                  max(df_year_counts$year), by = 2)) +
+  labs(title = "Observations per Year",
+       x = "Year",
+       y = "Count") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+yrline
+```
+
 
 
 ## Plot Missingness in Data
@@ -312,15 +340,78 @@ title(main = "ROC Curve for Additional Model with Women Signatories & Year",
 
 Based on the analysis above, the additional model year_glm, which predicted GeWom from FemSig_Bin + year, is the best. This is because there is a 67.5% prediction accuracy in the cross validation performance for this model, which is higher than the prediction accuracy of the original model, which was 54.7%. There is also more area under the curve in the ROC plot, indicating a higher amount of true positives.
 
+### ROC Curves Side by Side
+
+```{r}
+par(mfrow = c(1,2))
+
+plot(perf1, 
+     xlab = "False Positive Rate", 
+     ylab = "True Positive Rate",
+     col = "maroon1", lwd = 2)
+abline(a = 0, b = 1, col = "gray50")
+title(main = "ROC Curve for Original Model  \n Just Women Signatories", 
+      col.main = "maroon1")
+
+
+plot(perf1_year, 
+     xlab = "False Positive Rate", 
+     ylab = "True Positive Rate",
+     col = "hotpink2", lwd = 2)
+abline(a = 0, b = 1, col = "gray50")
+title(main = "ROC Curve for Additional Model  \n with Women Signatories & Year", 
+      col.main = "hotpink2")
+```
+
+
 $~$ 
 
 # Interpreting the Best Model
 
 ## Interpret a Coefficient
 
-```{r}
+### Log-Odds Coeffients
 
+```{r, warning = F}
+## log-odds coefs
+stargazer(year_glm, type = "text",
+          title = "Logistic Regression Results (Log-Odds)",
+          covariate.labels = c("Women Signatories", "Year"),
+          dep.var.labels = "Provisions for Women",
+          digits = 3,  # Number of decimal places
+          report = "vc*p")
 ```
+
+_Interpretations:_
+
+**Women Signatories (Log-Odds):**  Having women signatories present significantly increases the probability of provisions for women.
+
+**Year (Log-Odds):** Provisions for women have increased over time.
+
+**Intercept:** Baseline log-odds when Year = 0 (not meaningful in this case).
+ 
+ 
+### Calculate Odds Ratios for Interpretations
+
+```{r, warning = F}
+## odd ratios
+stargazer(year_glm, type = "text",
+          title = "Logistic Regression Results (Odds Ratios)",
+          coef = list(exp(coef(year_glm))),  # Convert to odds ratios
+          se = list(exp(summary(year_glm)$coefficients[,2])),  # Adjust SEs
+          covariate.labels = c("Women Signatories", "Year"),
+          dep.var.labels = "Provisions for Women",
+          digits = 3,
+          report = "vc*p")
+```
+
+_Interpretations:_
+
+**Women Signatories OR:** Agreements made with women signatories present increase the odds of provisions for women by 220.7%.
+
+**Year OR:** Each additional year increases the odds of including provisions for women by 4.5%.
+
+
 
 
 ## Graph Relationship (with Uncertainty) between chosen Predictor and Outcome
@@ -345,7 +436,8 @@ plot1 <- ggplot(sig_pred, aes(x = as.factor(FemSig_Bin), y = GeWom_Prob)) +
   geom_errorbar(aes(ymin = Lower, ymax = Upper), 
                 width = 0.2, color = "mediumvioletred") +
   scale_x_discrete(labels = c("0" = "Absent", "1" = "Present")) +
-  labs(title = "Effect of Women Signatories on Provisions for Women",
+  ylim(0, 1) +
+  labs(title = "Effect of Women Signatories  \n on Provisions for Women",
        x = "Women Signatories",
        y = "Predicted Probability of Provisions for Women") +
   theme_minimal() +
@@ -374,16 +466,28 @@ df_new$Lower <- plogis(year_pred$fit - 1.96 * year_pred$se.fit)
 plot2 <- ggplot(df_new, aes(x = year, y = predicted_prob)) +
   geom_line(color = "violetred2", size = 1.2) +
   geom_ribbon(aes(ymin = Lower, ymax = Upper), 
-              alpha = 0.2, fill = "palevioletred2") +
-  labs(title = "Effect of Year on Provisions for Women",
+              alpha = 0.2, fill = "violetred2") +
+  scale_x_continuous(breaks = seq(min(df$year, na.rm = TRUE), 
+                                  max(df$year, na.rm = TRUE), by = 2)) +
+  ylim(0, 1) +
+  labs(title = "Effect of Year  \n on Provisions for Women",
        x = "Year",
        y = "Predicted Probability of Provisions for Women") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5),
         axis.title.x = element_text(size = 11),
-        axis.title.y = element_text(size = 11))  
+        axis.title.y = element_text(size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        panel.grid.minor.x = element_blank())  
 
 plot2
+```
+
+
+### Uncertainty Graphs Side by Side
+
+```{r}
+grid.arrange(plot1, plot2, ncol = 2)
 ```
 
 
