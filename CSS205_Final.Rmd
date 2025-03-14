@@ -105,9 +105,10 @@ hist
 
 bar <- ggplot(df, aes(x = as.factor(GeWom))) + 
   geom_bar(fill = "pink") +
-  labs(title = "Bar Graph of Dependent Variable  \n Provisions for Women",
-       x = "Binary Variable for Provisions for Women  \n (1 = Present/0 = Absent)",
+  labs(title = "Bar Graph of Provisions for Women (Dependent Variable)",
+       x = "Provisions for Women",
        y = "Frequency") +
+  scale_x_discrete(labels = c("0" = "Absent", "1" = "Present")) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         axis.title.x = element_text(size = 11),
@@ -204,7 +205,7 @@ stargazer(sig_b_glm, neg_b_glm, med_b_glm, ob_b_glm, type="text",
 ```{r, warning = F}
 stargazer(sig_b_glm, type="text",
           covariate.labels = c("Women Signatories"),
-          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.caption = "Selected Original Model",
           dep.var.labels = "Provisions for Women")
 ```
 
@@ -232,7 +233,7 @@ year_glm <- glm(GeWom ~ FemSig_Bin + year,
 ```{r, warning = F}
 stargazer(year_glm, type="text",
           covariate.labels = c("Women Signatories", "Year"),
-          dep.var.caption = "Women Delegates per Negotiation (Binary)",
+          dep.var.caption = "Additional Model",
           dep.var.labels = "Provisions for Women")
 ```
 
@@ -246,8 +247,9 @@ $~$
 ```{r, warning = F}
 stargazer(sig_b_glm, year_glm, type="text",
           covariate.labels = c("Women Signatories", "Year"),
-          dep.var.caption = "Women Delegates per Negotiation (Binary)",
-          dep.var.labels = "Provisions for Women")
+          dep.var.caption = "Original and Additional Models",
+          dep.var.labels = "Provisions for Women",
+          column.labels = c("Original", "Additional"))
 ```
 
 
