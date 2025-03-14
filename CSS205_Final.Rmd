@@ -104,7 +104,7 @@ hist
 
 bar <- ggplot(df, aes(x = as.factor(GeWom))) + 
   geom_bar(fill = "pink") +
-  labs(title = "Histogram of Dependent Variable  \n Provisions for Women",
+  labs(title = "Bar Graph of Dependent Variable  \n Provisions for Women",
        x = "Binary Variable for Provisions for Women  \n (1 = Present/0 = Absent)",
        y = "Frequency") +
   theme_bw() +
@@ -119,15 +119,20 @@ bar
 ## Any Other Interesting Quantities
 
 ```{r}
-# summary(df)
+# Investigating Year
 
-subs <- df %>% select(GeWom, 
-                      FemSig_P, FemNeg_P, FemMed_P, FemOb_P,
-                      FemSig_N, FemNeg_N, FemMed_N, FemOb_N,
-                      FemSig_Bin, FemNeg_Bin, FemMed_Bin, FemOb_Bin,
-                      )
+yrbar <- ggplot(df, aes(x = as.factor(year))) + 
+  geom_bar(fill = "pink") +
+  labs(title = "Observations per Year",
+       x = "Year",
+       y = "Frequency") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
 
-summary(subs)
+yrbar
 ```
 
 
@@ -136,7 +141,7 @@ summary(subs)
 ```{r}
 # Generate missingness visualization
 
-dat <- df %>% select(GeWom, FemSig_N, FemNeg_N, FemMed_N, FemOb_N)
+dat <- df %>% dplyr::select(GeWom, FemSig_N, FemNeg_N, FemMed_N, FemOb_N)
 vis_miss(dat)
 ```
 
