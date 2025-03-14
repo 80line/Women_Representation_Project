@@ -326,8 +326,65 @@ $~$
 ## Graph Relationship (with Uncertainty) between chosen Predictor and Outcome
 
 ```{r}
+# Women Signatories (controlling for year)
 
+## Create a new df for predictions
+sig_pred <- data.frame(FemSig_Bin = c(0, 1),
+                       year = mean(df$year, na.rm = TRUE))
+
+## Predictions and confidence intervals
+predictions <- predict(year_glm, newdata = sig_pred, 
+                       type = "link", se.fit = TRUE)
+sig_pred$GeWom_Prob <- plogis(predictions$fit)  # log-odds to probabilities
+sig_pred$Upper <- plogis(predictions$fit + 1.96 * predictions$se.fit)
+sig_pred$Lower <- plogis(predictions$fit - 1.96 * predictions$se.fit)
+
+## Plot 1
+plot1 <- ggplot(sig_pred, aes(x = as.factor(FemSig_Bin), y = GeWom_Prob)) +
+  geom_point(size = 4, color = "mediumvioletred") +
+  geom_errorbar(aes(ymin = Lower, ymax = Upper), 
+                width = 0.2, color = "mediumvioletred") +
+  labs(title = "Effect of Women Signatories on Provisions for Women",
+       x = "Women Signatories (0 = No, 1 = Yes)",
+       y = "Predicted Probability of Provisions for Women") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11))
+
+plot1
 ```
+
+```{r}
+# Year (controlling for the presences of Women Signatories
+
+## Create a new df for predictions
+df_new <- data.frame(
+  FemSig_Bin = mean(df$FemSig_Bin, na.rm = TRUE), 
+  year = seq(min(df$year, na.rm = TRUE), max(df$year, na.rm = TRUE), by = 1))
+
+# Generate predictions and confidence intervals
+year_pred <- predict(year_glm, newdata = df_new, type = "link", se.fit = TRUE)
+df_new$predicted_prob <- plogis(year_pred$fit)  # log-odds to probabilities
+df_new$Upper <- plogis(year_pred$fit + 1.96 * year_pred$se.fit)
+df_new$Lower <- plogis(year_pred$fit - 1.96 * year_pred$se.fit)
+
+# Plot 2
+plot2 <- ggplot(df_new, aes(x = year, y = predicted_prob)) +
+  geom_line(color = "violetred2", size = 1.2) +
+  geom_ribbon(aes(ymin = Lower, ymax = Upper), 
+              alpha = 0.2, fill = "palevioletred2") +
+  labs(title = "Effect of Year on Provisions for Women",
+       x = "Year",
+       y = "Predicted Probability of Provisions for Women") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size = 11),
+        axis.title.y = element_text(size = 11))  
+
+plot2
+```
+
 
 
 $~$
