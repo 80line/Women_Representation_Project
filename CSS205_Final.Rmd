@@ -344,8 +344,9 @@ plot1 <- ggplot(sig_pred, aes(x = as.factor(FemSig_Bin), y = GeWom_Prob)) +
   geom_point(size = 4, color = "mediumvioletred") +
   geom_errorbar(aes(ymin = Lower, ymax = Upper), 
                 width = 0.2, color = "mediumvioletred") +
+  scale_x_discrete(labels = c("0" = "Absent", "1" = "Present")) +
   labs(title = "Effect of Women Signatories on Provisions for Women",
-       x = "Women Signatories (0 = No, 1 = Yes)",
+       x = "Women Signatories",
        y = "Predicted Probability of Provisions for Women") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5),
