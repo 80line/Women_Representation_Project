@@ -13,6 +13,7 @@ library(ggplot2)
 library(corrplot)
 library(naniar)
 library(stargazer)
+library(knitr)
 library(dplyr)
 library(lubridate)
 library(caret)
@@ -127,7 +128,7 @@ bar
 
 yrbar <- ggplot(df, aes(x = as.factor(year))) + 
   geom_bar(fill = "palevioletred1") +
-  labs(title = "Observations per Year",
+  labs(title = "Observations per Year in Dataset",
        x = "Year",
        y = "Frequency") +
   theme_bw() +
@@ -151,7 +152,7 @@ yrline <- ggplot(df_year_counts, aes(x = year, y = n)) +
   geom_line(color = "palevioletred1", size = 1.2) +
   scale_x_continuous(breaks = seq(min(df_year_counts$year), 
                                   max(df_year_counts$year), by = 2)) +
-  labs(title = "Observations per Year",
+  labs(title = "Observations per Year in Dataset",
        x = "Year",
        y = "Count") +
   theme_bw() +
@@ -170,7 +171,7 @@ yrline
 ```{r}
 # Generate missingness visualization
 
-dat <- df %>% dplyr::select(GeWom, FemSig_N, FemNeg_N, FemMed_N, FemOb_N)
+dat <- df %>% dplyr::select(GeWom, FemSig_Bin, FemNeg_Bin, FemMed_Bin, FemOb_Bin, year)
 vis_miss(dat)
 ```
 
@@ -259,6 +260,17 @@ stargazer(sig_b_glm, year_glm, type="text",
 AIC(sig_b_glm, year_glm)
 BIC(sig_b_glm, year_glm)
 ```
+
+```{r}
+model_fit_stats <- data.frame(Model = c("Original", "Additional"),
+                              AIC = c(AIC(sig_b_glm), AIC(year_glm)),
+                              BIC = c(BIC(sig_b_glm), BIC(year_glm)))
+
+kable(model_fit_stats, 
+      caption = "In-Sample Model Fit", 
+      digits = 3)
+```
+
 
 
 ## Out-Of-Sample Predictive Performance (Cross Validation)
